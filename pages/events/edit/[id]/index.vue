@@ -1,15 +1,25 @@
 <script setup>
 import { useAuthStore } from "@/store/auth";
 import VueDatePicker from "@vuepic/vue-datepicker";
+import { useToast } from "vue-toastification";
 import "@vuepic/vue-datepicker/dist/main.css";
 
-const authStore = useAuthStore();
-const markers = reactive([]);
+definePageMeta({
+  middleware: "logged-in",
+});
+
+const router = useRouter();
+const route = useRoute();
 const fileInput = ref(null);
 const page = ref("info");
 const mainPhoto = ref(0);
+const markers = reactive([]);
 const photosToDisplay = ref([]);
-const router = useRouter();
+const currentPhotos = ref([]);
+const { id } = route.params;
+const toast = useToast();
+const event = ref({});
+
 const formData = reactive({
   name: "",
   description: "",
@@ -54,9 +64,19 @@ function handelFileInput() {
   reader.readAsDataURL(file);
 }
 
-function removePhoto(index) {
-  formData.photos.splice(index, 1);
-  photosToDisplay.value.splice(index, 1);
+async function deletePhoto(photoId) {
+  const { error } = await useApi(`/api/events/${id}/remove-photo/${photoId}`, {
+    key: "deletePhoto",
+    method: "PUT",
+  });
+  if (error.value) {
+    console.error(error);
+    toast.error("Something went wrong");
+    return;
+  }
+  toast.success("Photo deleted successfully");
+  const index = currentPhotos.value.indexOf(photoId);
+  currentPhotos.value.splice(index, 1);
 }
 
 async function handleSubmit() {
@@ -66,7 +86,7 @@ async function handleSubmit() {
       address: formData.address,
       description: formData.description,
       coordinates: {
-        longitude: markers[0].position.lat,
+        langitutde: markers[0].position.lat,
         latitude: markers[0].position.lng,
       },
       price: formData.price,
@@ -77,12 +97,16 @@ async function handleSubmit() {
       capacity: formData.capacity,
       isTicketNeeded: formData.isTicketNeeded,
     };
-    const { data } = await useApi("/api/events", {
+    const { data } = await useApi("/api/events/" + route.params.id, {
       key: "event",
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(prettyData),
     });
-
+    // dont send photos if there are no new photos added or deleted
+    if (formData.photos.length === 0) {
+      router.push(`/events`);
+      return;
+    }
     for (const photo of formData.photos) {
       const formData = new FormData();
       formData.append("file", photo);
@@ -99,24 +123,44 @@ async function handleSubmit() {
       }
       mainPhoto.value = photoData.value.photos[0].id;
     }
-    const { data: changeMainPhoto } = await useApi(
-      `/api/events/${data.value.id}/change-main-photo/${mainPhoto.value}`,
-      {
-        key: "changeMainPhoto",
-        method: "PUT",
-      }
-    );
     router.push(`/events`);
   } catch (error) {
     console.log(error);
   }
 }
+
+await fetchEvent();
+async function fetchEvent() {
+  const { data } = await useApi(`/api/events/${id}`, {
+    method: "GET",
+  });
+  console.log(data.value);
+  formData.name = data.value.name;
+  formData.address = data.value.address;
+  formData.description = data.value.description;
+  formData.price = data.value.price;
+  formData.currencyId = data.value.currency.id;
+  formData.dates = [data.value.startTime, data.value.endTime];
+  formData.categoryIds = data.value.categories.map((c) => c.id);
+  formData.capacity = data.value.capacity;
+  formData.isTicketNeeded = data.value.isTicketNeeded;
+  mainPhoto.value = data.value.mainPhoto.highQualityId;
+  markers.push({
+    position: {
+      lat: Number(data.value.coordinates.longitude),
+      lng: Number(data.value.coordinates.latitude),
+    },
+  });
+  currentPhotos.value = data.value.photos.map((p) => p);
+}
 </script>
 <template>
-  <section class="bg-white dark:bg-custom-black-200 py-8 px-4">
-    <div class="mx-auto max-w-3xl p-6 bg-custom-black-300 rounded-md">
+  <section class="bg-white dark:bg-custom-black-200 p-10">
+    <div
+      class="py-8 px-4 mx-auto max-w-2xl lg:py-8 bg-custom-black-300 rounded-md"
+    >
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-        Add a new event
+        Update an event
       </h2>
       <form @submit.prevent="handleSubmit">
         <div v-if="page === 'info'">
@@ -218,7 +262,7 @@ async function handleSubmit() {
           <div class="flex items-center justify-center w-full">
             <label
               for="dropzone-file"
-              class="flex flex-col items-center justify-center w-full h-100 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-custom-black-100 hover:bg-gray-100 dark:border-custom-black-300 dark:hover:border-gray-500 dark:hover:bg-custom-black-200"
+              class="flex flex-col items-center justify-center w-full h-100 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
@@ -249,19 +293,53 @@ async function handleSubmit() {
                 @change="handelFileInput()"
                 id="dropzone-file"
                 type="file"
-                accept="image/jpeg, image/png"
                 class="hidden"
               />
             </label>
           </div>
           <div class="flex mt-8 gap-6 flex-wrap">
             <div
-              v-for="(photo, index) in photosToDisplay"
-              class="group relative photo-item w-40 h-40"
+              v-for="photo in photosToDisplay"
+              class="relative photo-item w-40 h-40"
             >
               <img :src="photo" alt="" class="w-full h-full object-cover" />
+            </div>
+            <div class="group photo-item w-40 h-40 relative">
+              <img
+                :src="`http://localhost:8080/api/photos/${mainPhoto}`"
+                alt=""
+                class="w-full h-full object-cover"
+              />
               <button
-                @click="removePhoto(index)"
+                @click="deletePhoto(mainPhoto)"
+                type="button"
+                class="hidden absolute -top-2 -right-2 w-6 h-6 rounded-full group-hover:flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div
+              v-if="currentPhotos.length > 0"
+              v-for="photo in currentPhotos"
+              class="group relative photo-item w-40 h-40"
+            >
+              <img
+                :src="`http://localhost:8080/api/photos/${photo.normalId}`"
+                alt=""
+                class="w-full h-full object-cover"
+              />
+              <button
+                @click="deletePhoto(photo.id)"
                 type="button"
                 class="hidden absolute -top-2 -right-2 w-6 h-6 rounded-full group-hover:flex items-center justify-center"
               >
@@ -315,7 +393,7 @@ async function handleSubmit() {
 
 <style>
 .dp__theme_dark {
-  --dp-background-color: #100f0f;
+  --dp-background-color: #374151;
   --dp-text-color: #ffffff;
   --dp-hover-color: #484848;
   --dp-hover-text-color: #ffffff;

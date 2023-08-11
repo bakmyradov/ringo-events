@@ -4,7 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 
 export default {
   components: {
-    FullCalendar, // make the <FullCalendar> tag available
+    FullCalendar,
   },
   data: function () {
     return {
@@ -12,12 +12,23 @@ export default {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
         weekends: false,
-        events: [
-          { title: "City Games", start: new Date() },
-          { title: "Ice Skating", start: new Date("2023-04-06") },
-        ],
+        events: [{ title: "Open Call", start: new Date() }],
       },
     };
+  },
+  mounted() {
+    const grids = document.querySelectorAll(".fc-daygrid-day-events");
+    // if grid has child node with class 'fc-daygrid-event-harness' then set image to parent element with the class of 'fc-daygrid-day-frame'
+    grids.forEach((grid) => {
+      if (grid.childNodes[0].classList.contains("fc-daygrid-event-harness")) {
+        grid.parentNode.style.backgroundImage =
+          "url('https://tallinn.esn.ee/sites/default/files/events/images/oc.jpg')";
+        grid.parentNode.style.backgroundSize = "cover";
+        grid.parentNode.style.backgroundPosition = "center";
+        grid.parentNode.style.backgroundRepeat = "no-repeat";
+        grid.parentNode.style.borderRadius = "0.5rem";
+      }
+    });
   },
 };
 </script>
@@ -28,7 +39,7 @@ export default {
 
 <style scoped>
 .fc {
-  background-color: #1f2937;
+  background-color: #100f0f;
   color: white;
   padding: 2rem;
   border-radius: 0.5rem;

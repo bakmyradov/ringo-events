@@ -4,7 +4,7 @@
     data-drawer-toggle="default-sidebar"
     aria-controls="default-sidebar"
     type="button"
-    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-custom-black-300 dark:focus:ring-gray-600"
   >
     <span class="sr-only">Open sidebar</span>
     <svg
@@ -28,10 +28,10 @@
     aria-label="Sidenav"
   >
     <div
-      class="overflow-y-auto py-4 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+      class="overflow-y-auto py-4 px-3 h-full bg-white border-r border-gray-200 dark:bg-custom-black-100 dark:border-custom-black-300"
     >
       <div
-        class="logo mb-6 text-xl font-bold text-white flex items-center pb-3 border-b border-gray-200 dark:border-gray-700"
+        class="logo mb-6 text-xl font-bold text-white flex items-center pb-3 border-b border-gray-200 dark:border-custom-black-300"
       >
         <div class="w-10 h-10 mr-2">
           <IconsIconLogo />
@@ -42,7 +42,7 @@
         <li>
           <NuxtLink
             to="/"
-            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-custom-black-300 group"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@
         <li>
           <NuxtLink
             to="/events"
-            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-custom-black-300 group"
           >
             <svg
               aria-hidden="true"
@@ -80,7 +80,7 @@
         <li>
           <a
             href="#"
-            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-custom-black-300 group"
           >
             <svg
               aria-hidden="true"
@@ -98,7 +98,7 @@
       </ul>
     </div>
     <div
-      class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20 border-r border-gray-200 dark:border-gray-700"
+      class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-custom-black-100 z-20 border-r border-gray-200 dark:border-custom-black-300"
     >
       <a
         href="#"

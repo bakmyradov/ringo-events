@@ -54,6 +54,11 @@ module.exports = {
         800: "#1e40af",
         900: "#1e3a8a",
       },
+      "custom-black": {
+        100: "#100f0f",
+        200: "#1a1a1a",
+        300: "#292929",
+      },
     }),
     columns: {
       auto: "auto",
