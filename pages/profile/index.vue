@@ -2,14 +2,26 @@
 import { useAuthStore } from "@/store/auth";
 import { useToast } from "vue-toastification";
 const authStore = useAuthStore();
+const config = useRuntimeConfig().public;
 
-const formData = reactive({
+const formData = {
   name: authStore.user.name,
   username: authStore.user.username,
   email: authStore.user.email,
-});
+  contacts: [],
+  description: authStore.user.description,
+};
 
-const showConfirm = ref(false);
+for (const contact of authStore.user.contacts) {
+  formData.contacts.push({
+    title: contact.title,
+    content: contact.content,
+  });
+}
+
+const showContactModal = ref(false);
+const updateContactForm = ref(null);
+
 const formDataPassword = reactive({
   new: "",
   old: "",
@@ -45,6 +57,22 @@ async function changePassword() {
   authStore.logout();
   router.push("/login");
   toast.success("Password changed successfully. Please login again");
+}
+
+function updateContactInfo(contact) {
+  updateContactForm.value = contact;
+  showContactModal.value = true;
+}
+
+function addContactInfo(data) {
+  formData.contacts.push(data);
+  authStore.updateUser(formData);
+}
+
+function deleteContactInfo(contact) {
+  const index = formData.contacts.indexOf(contact);
+  formData.contacts.splice(index, 1);
+  authStore.updateUser(formData);
 }
 
 async function deleteAccount() {
@@ -96,31 +124,17 @@ async function uploadProfilePic() {
     <div
       class="flex w-full bg-white border border-gray-200 px-8 py-6 rounded-lg shadow dark:bg-custom-black-100 dark:border-custom-black-300"
     >
-      <div class="top w-full flex items-center">
-        <div class="group avatar relative w-30 h-30" @click="uploadProfilePic">
+      <div class="top w-full flex items-start">
+        <div class="group avatar relative w-40 h-40" @click="uploadProfilePic">
           <img
             class="w-full h-full object-cover rounded-full"
-            :src="`http://localhost:8080/api/photos/${authStore.user.profilePictureId}`"
+            :src="`${config.API_URL}/api/photos/${authStore.user.profilePictureId}`"
             alt=""
           />
           <div
             class="hidden absolute top-0 left-0 w-full h-full bg-black/70 rounded-full cursor-pointer group-hover:flex items-center justify-center"
           >
-            <svg
-              class="w-6 h-6 text-gray-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 21 21"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"
-              />
-            </svg>
+            <IconsPen />
           </div>
         </div>
         <div class="ml-10 text-white">
@@ -134,10 +148,54 @@ async function uploadProfilePic() {
             -
             {{ authStore.user.username }}
           </p>
+          <div class="w-140">
+            <p class="mt-6">{{ authStore.user.description }}</p>
+          </div>
+          <div class="add-contacts p-4 mt-4 bg-custom-black-200 rounded-md">
+            <div class="top flex items-center">
+              <h1 class="text-white text-xl font-bold">Contacts</h1>
+              <button
+                @click="showContactModal = true"
+                class="flex items-center ml-4"
+              >
+                <IconsPlus />
+              </button>
+            </div>
+            <div class="items flex flex-col gap-y-4 mt-4">
+              <div
+                class="flex text-white text-lg cursor-pointer"
+                v-for="contact in authStore.user.contacts"
+                @click="deleteContactInfo(contact)"
+              >
+                <span class="font-bold">{{ contact.title }}:</span>
+                <span class="text-md font-light ml-2 text-gray-50">{{
+                  contact.content
+                }}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="w-auto ml-auto">
-          <BaseButton @click="deleteAccount" color="danger"
-            >Delete Account</BaseButton
+
+        <div class="flex ml-auto items-center">
+          <svg
+            class="w-5 h-5 text-yellow-300 mr-1"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 22 20"
+          >
+            <path
+              d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"
+            />
+          </svg>
+          <p class="text-lg font-bold text-gray-900 dark:text-white">4.95</p>
+          <span
+            class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"
+          ></span>
+          <a
+            href="#"
+            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+            >73 reviews</a
           >
         </div>
       </div>
@@ -166,13 +224,19 @@ async function uploadProfilePic() {
             placeholder="Email"
             class="mt-4"
           />
+          <BaseTextarea
+            v-model="formData.description"
+            label="Description"
+            placeholder="Description"
+            class="mt-4"
+          />
           <BaseButton class="mt-6" @click="authStore.updateUser(formData)"
             >Submit</BaseButton
           >
         </div>
       </div>
       <div
-        class="w-full bg-white border border-gray-200 px-8 py-6 rounded-lg shadow dark:bg-custom-black-100 dark:border-custom-black-300"
+        class="w-full h-auto bg-white border border-gray-200 px-8 py-6 rounded-lg shadow dark:bg-custom-black-100 dark:border-custom-black-300"
       >
         <div>
           <h1 class="text-white text-2xl font-bold">Change Password</h1>
@@ -201,5 +265,15 @@ async function uploadProfilePic() {
         </div>
       </div>
     </div>
+    <div class="w-80 mt-8">
+      <BaseButton @click="deleteAccount" color="danger"
+        >Delete Account</BaseButton
+      >
+    </div>
+    <ContactModal
+      :show="showContactModal"
+      @close="showContactModal = false"
+      @addContact="($event) => addContactInfo($event)"
+    />
   </div>
 </template>

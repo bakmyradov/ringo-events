@@ -6,4 +6,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
   if (!authStore.userToken) {
     return navigateTo("/login");
   }
+  if (!authStore.user.emailVerified) {
+    return navigateTo("/verify-email");
+  }
 });

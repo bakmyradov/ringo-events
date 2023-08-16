@@ -19,6 +19,7 @@ const currentPhotos = ref([]);
 const { id } = route.params;
 const toast = useToast();
 const event = ref({});
+const config = useRuntimeConfig().public;
 
 const formData = reactive({
   name: "",
@@ -306,7 +307,7 @@ async function fetchEvent() {
             </div>
             <div class="group photo-item w-40 h-40 relative">
               <img
-                :src="`http://localhost:8080/api/photos/${mainPhoto}`"
+                :src="`${config.API_URL}/api/photos/${mainPhoto}`"
                 alt=""
                 class="w-full h-full object-cover"
               />
@@ -334,7 +335,7 @@ async function fetchEvent() {
               class="group relative photo-item w-40 h-40"
             >
               <img
-                :src="`http://localhost:8080/api/photos/${photo.normalId}`"
+                :src="`${config.API_URL}/api/photos/${photo.normalId}`"
                 alt=""
                 class="w-full h-full object-cover"
               />

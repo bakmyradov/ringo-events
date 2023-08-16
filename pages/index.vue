@@ -1,3 +1,11 @@
+<script setup>
+definePageMeta({
+  title: "Dashboard",
+  description: "Dashboard",
+  middleware: "logged-in",
+});
+</script>
+
 <template>
   <div class="wrapper p-10 bg-custom-black-200">
     <section class="flex w-full justify-between gap-x-10">

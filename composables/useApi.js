@@ -1,9 +1,9 @@
 import { useAuthStore } from "@/store/auth";
 export const useApi = (request, opts) => {
-  // const config = useRuntimeConfig().public;
+  const config = useRuntimeConfig().public;
   const authStore = useAuthStore();
   return useFetch(request, {
-    baseURL: "http://127.0.0.1:8080",
+    baseURL: config.API_URL,
     ...opts,
     onRequest: ({ request, options }) => {
       options.headers = options.headers || {};
@@ -13,7 +13,7 @@ export const useApi = (request, opts) => {
       if (error.response.status === 401) {
         await authStore.refreshToken();
         return useFetch(request, {
-          baseURL: "http://127.0.0.1:8080",
+          baseURL: config.API_URL,
           headers: {
             Authorization: `Bearer ${authStore.userToken}`,
           },

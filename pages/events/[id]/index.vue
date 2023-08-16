@@ -5,6 +5,7 @@ definePageMeta({
 
 const router = useRouter();
 const route = useRoute();
+const config = useRuntimeConfig().public;
 const { id } = route.params;
 const event = ref({});
 await fetchEvent();
@@ -36,7 +37,7 @@ function formatDate(event) {
       <div class="img-wrapper w-full h-full">
         <img
           class="w-full h-[60vh] object-cover mb-10"
-          :src="`http://localhost:8080/api/photos/${event.mainPhoto.highQualityId}`"
+          :src="`${config.API_URL}/api/photos/${event.mainPhoto.highQualityId}`"
           alt=""
         />
       </div>

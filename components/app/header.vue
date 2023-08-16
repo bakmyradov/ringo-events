@@ -1,8 +1,12 @@
 <script setup>
 import { useAuthStore } from "@/store/auth";
 import { initFlowbite } from "flowbite";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 const authStore = useAuthStore();
 const router = useRouter();
+const config = useRuntimeConfig().public;
 function logout() {
   authStore.logout();
   router.push("/login");
@@ -27,7 +31,7 @@ onMounted(() => {
           class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-4 flex justify-center items-center"
         >
           <img
-            :src="`http://localhost:8080/api/photos/${authStore.user.profilePictureId}`"
+            :src="`${config.API_URL}/api/photos/${authStore.user.profilePictureId}`"
             alt=""
           />
         </div>
@@ -46,7 +50,6 @@ onMounted(() => {
           ></path>
         </svg>
       </button>
-
       <!-- Dropdown menu -->
       <div
         id="dropdownAvatarName"

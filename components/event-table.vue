@@ -14,6 +14,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["search"]);
 const allEvents = toRef(props, "eventList");
+const config = useRuntimeConfig().public;
 
 async function handleDelete(eventId) {
   const { data: deletedEvent, error } = await useApi(`/api/events/${eventId}`, {
@@ -60,7 +61,7 @@ async function handleDelete(eventId) {
             >
               <div class="img-wrapper w-30 h-auto mr-4">
                 <img
-                  :src="`http://localhost:8080/api/photos/${event.mainPhotoId}`"
+                  :src="`${config.API_URL}/api/photos/${event.mainPhotoId}`"
                   class="w-full h-full"
                 />
               </div>

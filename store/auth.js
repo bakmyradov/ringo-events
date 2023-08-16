@@ -32,6 +32,7 @@ export const useAuthStore = defineStore(
           method: "PUT",
           body: JSON.stringify(data),
         });
+        console.log(newData.value);
         setUserData(newData.value);
         toast.success("Profile updated successfully");
       } catch (error) {

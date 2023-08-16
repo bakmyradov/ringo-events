@@ -2,7 +2,7 @@
 import { useAuthStore } from "@/store/auth";
 import { useToast } from "vue-toastification";
 definePageMeta({
-  middleware: ["redirect"],
+  middleware: ["is-authenticated"],
 });
 
 const authStore = useAuthStore();
