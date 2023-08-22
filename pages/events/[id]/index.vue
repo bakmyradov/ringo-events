@@ -37,7 +37,7 @@ function formatDate(event) {
       <div class="img-wrapper w-full h-full">
         <img
           class="w-full h-[60vh] object-cover mb-10"
-          :src="`${config.API_URL}/api/photos/${event.mainPhoto.highQualityId}`"
+          :src="`${config.apiUrl}/api/photos/${event.mainPhoto.highQualityId}`"
           alt=""
         />
       </div>

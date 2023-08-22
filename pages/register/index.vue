@@ -19,6 +19,7 @@ const formData = reactive({
 });
 
 const isError = ref(false);
+const config = useRuntimeConfig().public;
 
 const router = useRouter();
 const showContactModal = ref(false);
@@ -80,7 +81,7 @@ async function handleSubmit() {
   }
 
   const { error: registerError, data: registerData } = await useFetch(
-    "/api/organisations/sign-up",
+    `${config.apiUrl}/api/organisations/sign-up`,
     {
       method: "POST",
       body: JSON.stringify(formData),

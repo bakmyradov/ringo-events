@@ -10,12 +10,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-      API_URL: process.env.API_URL,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL,
     },
   },
   proxy: {
     options: {
-      target: "http://127.0.0.1:8080",
+      target: process.env.NUXT_PUBLIC_API_URL || "http://127.0.0.1:8080",
       changeOrigin: true,
       pathFilter: ["/api"],
     },

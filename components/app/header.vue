@@ -31,7 +31,7 @@ onMounted(() => {
           class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-4 flex justify-center items-center"
         >
           <img
-            :src="`${config.API_URL}/api/photos/${authStore.user.profilePictureId}`"
+            :src="`${config.apiUrl}/api/photos/${authStore.user.profilePictureId}`"
             alt=""
           />
         </div>

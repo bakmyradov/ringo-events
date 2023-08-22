@@ -307,7 +307,7 @@ async function fetchEvent() {
             </div>
             <div class="group photo-item w-40 h-40 relative">
               <img
-                :src="`${config.API_URL}/api/photos/${mainPhoto}`"
+                :src="`${config.apiUrl}/api/photos/${mainPhoto}`"
                 alt=""
                 class="w-full h-full object-cover"
               />
@@ -335,7 +335,7 @@ async function fetchEvent() {
               class="group relative photo-item w-40 h-40"
             >
               <img
-                :src="`${config.API_URL}/api/photos/${photo.normalId}`"
+                :src="`${config.apiUrl}/api/photos/${photo.normalId}`"
                 alt=""
                 class="w-full h-full object-cover"
               />

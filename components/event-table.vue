@@ -61,7 +61,7 @@ async function handleDelete(eventId) {
             >
               <div class="img-wrapper w-30 h-auto mr-4">
                 <img
-                  :src="`${config.API_URL}/api/photos/${event.mainPhotoId}`"
+                  :src="`${config.apiUrl}/api/photos/${event.mainPhotoId}`"
                   class="w-full h-full"
                 />
               </div>

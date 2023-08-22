@@ -128,7 +128,7 @@ async function uploadProfilePic() {
         <div class="group avatar relative w-40 h-40" @click="uploadProfilePic">
           <img
             class="w-full h-full object-cover rounded-full"
-            :src="`${config.API_URL}/api/photos/${authStore.user.profilePictureId}`"
+            :src="`${config.apiUrl}/api/photos/${authStore.user.profilePictureId}`"
             alt=""
           />
           <div

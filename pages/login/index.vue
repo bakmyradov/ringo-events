@@ -17,9 +17,10 @@ const formData = reactive({
 
 const router = useRouter();
 const isError = ref(false);
+const config = useRuntimeConfig().public;
 
 async function handleLogin() {
-  const { error, data } = await useFetch("/api/auth/login", {
+  const { error, data } = await useFetch(`${config.apiUrl}/api/auth/login`, {
     method: "POST",
     body: JSON.stringify(formData),
   });
@@ -33,16 +34,19 @@ async function handleLogin() {
   authStore.setUserToken(data.value.accessToken);
   authStore.setUserRefreshToken(data.value.refreshToken);
 
-  const { data: userData } = await useFetch("/api/organisations", {
-    headers: {
-      Authorization: `Bearer ${data.value.accessToken}`,
-    },
-  });
+  const { data: userData } = await useFetch(
+    `${config.apiUrl}/api/organisations`,
+    {
+      headers: {
+        Authorization: `Bearer ${data.value.accessToken}`,
+      },
+    }
+  );
   console.log(userData.value);
   authStore.setUserData(userData.value);
   router.push("/events");
 
-  formData.username = "";
+  formData.email = "";
   formData.password = "";
 }
 </script>

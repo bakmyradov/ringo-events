@@ -3,7 +3,7 @@ export const useApi = (request, opts) => {
   const config = useRuntimeConfig().public;
   const authStore = useAuthStore();
   return useFetch(request, {
-    baseURL: config.API_URL,
+    baseURL: config.apiUrl,
     ...opts,
     onRequest: ({ request, options }) => {
       options.headers = options.headers || {};
@@ -13,7 +13,7 @@ export const useApi = (request, opts) => {
       if (error.response.status === 401) {
         await authStore.refreshToken();
         return useFetch(request, {
-          baseURL: config.API_URL,
+          baseURL: config.apiUrl,
           headers: {
             Authorization: `Bearer ${authStore.userToken}`,
           },
