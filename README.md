@@ -52,26 +52,26 @@ This approach enabled us to create a robust platform where event organizers can 
 <table>
     <tr>
         <th>
-            <a href="#"><img src="./images/java.svg" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/java.svg" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Java
             </span>
         </th>
         <th>
-            <a href="#"><img src="./images/spring-boot.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/spring-boot.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Spring Boot
             </span>
     </tr>
     <tr>
         <th>
-            <a href="#"><img src="./images/postgres.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/postgres.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 PostgreSQL
             </span>
         </th>
         <th>
-            <a href="#"><img src="./images/amazon-s3.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/amazon-s3.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Amazon S3
             </span>
@@ -83,13 +83,13 @@ This approach enabled us to create a robust platform where event organizers can 
 <table>
     <tr>
         <th>
-            <a href="#"><img src="./images/javascript.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/javascript.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 JavaScript
             </span>
         </th>
         <th>
-            <a href="#"><img src="./images/vue.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/vue.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Vue.js
             </span>
@@ -101,13 +101,13 @@ This approach enabled us to create a robust platform where event organizers can 
 <table>
     <tr>
         <th>
-            <a href="#"><img src="./images/flutter.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/flutter.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Flutter
             </span>
         </th>
         <th>
-            <a href="#"><img src="./images/dart-logo.png" width=20 height=20 alt="vue"/></a>
+            <a href="#"><img src="./assets/imgs/dart-logo.png" width=20 height=20 alt="vue"/></a>
             <span style="color:white;font-weight:100;font-size:20px;font-family: '.AppleSystemUIFont',serif">
                 Dart
             </span>
@@ -119,20 +119,20 @@ This approach enabled us to create a robust platform where event organizers can 
 ## Screenshots
 
 ### Mobile app
-<img src="./images/screenshots/Feed.png" width=400/>
-<img src="./images/screenshots/Event.png" width=400/>
-<img src="./images/screenshots/Event2.png" width=400/>
-<img src="./images/screenshots/Search.png" width=400/>
-<img src="./images/screenshots/Profile.png" width=400/>
-<img src="./images/screenshots/Ticket.png" width=400/>
-<img src="./images/screenshots/RegistrationForm.png" width=400/>
-<img src="./images/screenshots/ContactHost.png" width=400/>
-<img src="./images/screenshots/Organisation.png" width=400/>
+<img src="./assets/imgs/screenshots/Feed.png" width=400/>
+<img src="./assets/imgs/screenshots/Event.png" width=400/>
+<img src="./assets/imgs/screenshots/Event2.png" width=400/>
+<img src="./assets/imgs/screenshots/Search.png" width=400/>
+<img src="./assets/imgs/screenshots/Profile.png" width=400/>
+<img src="./assets/imgs/screenshots/Ticket.png" width=400/>
+<img src="./assets/imgs/screenshots/RegistrationForm.png" width=400/>
+<img src="./assets/imgs/screenshots/ContactHost.png" width=400/>
+<img src="./assets/imgs/screenshots/Organisation.png" width=400/>
 
 ### Web app
-<img src="./images/screenshots/WebLogin.jpg" width=800/><br>
-<img src="./images/screenshots/WebEvents.jpg" width=800/><br>
-<img src="./images/screenshots/WebProfile.jpg" width=800/><br>
+<img src="./assets/imgs/screenshots/WebLogin.jpg" width=800/><br>
+<img src="./assets/imgs/screenshots/WebEvents.jpg" width=800/><br>
+<img src="./assets/imgs/screenshots/WebProfile.jpg" width=800/><br>
 
 
 
