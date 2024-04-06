@@ -1,4 +1,4 @@
-<h1><img src="./images/Ringo-White.png" width=40 alt="logo"/> Ringo</h1>
+<h1><img src="./assets/imgs/logo.png" width=40 alt="logo"/> Ringo</h1>
 
 ---
 ## What is Ringo?
